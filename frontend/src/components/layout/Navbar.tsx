@@ -1,74 +1,97 @@
 "use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { useAuth } from '@/context/AuthContext';
-import { LogIn, User, LayoutDashboard, LogOut } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { LogIn, LayoutDashboard, LogOut } from "lucide-react";
+import { defaultSiteContent } from "@/data/defaultSiteContent";
+import { SiteContent } from "@/types/siteContent";
 
-export default function Navbar() {
+interface NavbarProps {
+  brand?: SiteContent["brand"];
+  navigation?: SiteContent["navigation"];
+}
+
+export default function Navbar({
+  brand = defaultSiteContent.brand,
+  navigation = defaultSiteContent.navigation,
+}: NavbarProps) {
   const { user, logout } = useAuth();
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
 
   return (
-    <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-2xl font-black text-blue-600 tracking-tighter">CTRL/C CLUB</span>
-            </Link>
-            <div className="hidden sm:ml-10 sm:flex sm:space-x-8">
-              <NavLink href="/">Trang chủ</NavLink>
-              <NavLink href="/about">Giới thiệu</NavLink>
-              <NavLink href="/events">Sự kiện</NavLink>
-              <NavLink href="/forum">Diễn đàn</NavLink>
+    <nav className="sticky top-0 z-50 border-b border-[color:var(--line)] bg-[rgba(251,247,240,0.82)] backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[color:var(--foreground)] text-sm font-black text-white">
+              {brand.mark}
             </div>
+            <div>
+              <span className="block font-[family:var(--font-display)] text-lg font-bold tracking-tight text-[color:var(--foreground)]">
+                {brand.name}
+              </span>
+              <span className="block text-[11px] uppercase tracking-[0.28em] text-[color:var(--muted)]">
+                {brand.tagline}
+              </span>
+            </div>
+          </Link>
+
+          <div className="hidden items-center gap-6 md:flex">
+            {navigation.map((item) => (
+              <NavLink key={`${item.label}-${item.href}`} href={item.href}>
+                {item.label}
+              </NavLink>
+            ))}
           </div>
-          <div className="flex items-center">
-            {user ? (
-              <div className="flex items-center space-x-4">
-                <Link 
-                  href="/admin" 
-                  className="flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
-                >
-                  <LayoutDashboard className="w-4 h-4 mr-1" />
-                  Quản trị
-                </Link>
-                <div className="h-8 w-px bg-gray-200 mx-2"></div>
-                <div className="flex items-center space-x-3 group cursor-pointer relative">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold border border-blue-200">
-                    {user.name.charAt(0)}
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">{user.name}</span>
-                  <button 
-                    onClick={() => logout()}
-                    className="p-1 hover:text-red-600 transition-colors"
-                    title="Đăng xuất"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <Link 
-                href="/login" 
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-sm"
+        </div>
+
+        <div className="flex items-center gap-4">
+          {user ? (
+            <div className="flex items-center gap-3">
+              <Link
+                href="/admin"
+                className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[color:var(--foreground)] transition hover:-translate-y-0.5 hover:border-[color:var(--brand)]"
               >
-                <LogIn className="w-4 h-4 mr-2" />
-                Đăng nhập
+                <LayoutDashboard className="h-4 w-4" />
+                Quan tri
               </Link>
-            )}
-          </div>
+              <div className="hidden rounded-full border border-[color:var(--line)] bg-white px-3 py-2 text-sm text-[color:var(--muted)] sm:block">
+                {user.name}
+              </div>
+              <button
+                onClick={() => logout()}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--line)] bg-white text-[color:var(--muted)] transition hover:border-red-300 hover:text-red-600"
+                title="Dang xuat"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 rounded-full bg-[color:var(--foreground)] px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[color:var(--brand-deep)]"
+            >
+              <LogIn className="h-4 w-4" />
+              Dang nhap
+            </Link>
+          )}
         </div>
       </div>
     </nav>
   );
 }
 
-function NavLink({ href, children }: { href: string, children: React.ReactNode }) {
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link 
-      href={href} 
-      className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-blue-600 hover:border-blue-600 transition-all"
+    <Link
+      href={href}
+      className="text-sm font-medium text-[color:var(--muted)] transition hover:text-[color:var(--brand)]"
     >
       {children}
     </Link>

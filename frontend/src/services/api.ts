@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { SiteContent } from '@/types/siteContent';
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api',
@@ -50,6 +51,12 @@ export const clubMemberService = {
   promote: (data: any) => api.post('/v1/club/members', data),
   getPositions: () => api.get('/v1/club/positions'),
   remove: (id: string) => api.delete(`/v1/club/members/${id}`),
+};
+
+export const siteContentService = {
+  getPublic: () => api.get<SiteContent>('/v1/site-content'),
+  getAdmin: () => api.get<SiteContent>('/v1/admin/site-content'),
+  update: (data: SiteContent) => api.put<SiteContent>('/v1/admin/site-content', data),
 };
 
 export default api;
