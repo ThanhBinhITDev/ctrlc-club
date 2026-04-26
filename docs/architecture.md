@@ -1,7 +1,18 @@
-## Điều hướng và Giao diện (Navigation & UI)
+### User Models
+- **User**: Cơ sở cho việc xác thực, lưu trữ email, mật khẩu.
+- **ClubMember**: Mở rộng từ `User` dành riêng cho thành viên CLB, lưu trữ chức vụ, ban và thông tin sinh viên.
+- **ClubPosition**: Định nghĩa các chức vụ và cấp bậc (Level) trong CLB.
 
-### Navigation Manager
-Hệ thống quản lý menu động qua API.
+### Database Extensions
+- Bổ sung bảng `club_positions` để quản lý danh mục chức vụ.
+- Bổ sung bảng `club_members` để quản lý hồ sơ và phân cấp thành viên.
+- Sử dụng RBAC để phân tách quyền lợi giữa `Club-Member` và `External-User`.
+
+### Quản lý Thành viên (Member Management)
+Hệ thống cung cấp hai giao diện quản lý riêng biệt:
+1. **User Management**: Quản lý tất cả tài khoản người dùng đã đăng ký hệ thống (bao gồm cả khách và thành viên CLB).
+2. **Club Management**: Giao diện chuyên sâu dành cho Ban Chủ nhiệm để quản lý chức vụ, ban bệ và phân cấp trong nội bộ CLB.
+
 
 #### Cấu trúc Menu Item
 ```json

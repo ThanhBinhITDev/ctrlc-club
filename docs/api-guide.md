@@ -46,11 +46,24 @@ Authorization: Bearer <token>
 - `GET /api/v1/roles/:id/permissions` - Lấy quyền của vai trò
 - `PUT /api/v1/roles/:id/permissions` - Cập nhật quyền vai trò (super-admin only)
 
+### Quản lý Thành viên CLB (Club Members)
+- `GET /api/v1/club/members` - Liệt kê thành viên CLB (admin+)
+- `POST /api/v1/club/members` - Bổ nhiệm user thành thành viên CLB (admin+)
+- `GET /api/v1/club/members/:id` - Lấy thông tin chi tiết thành viên CLB
+- `PUT /api/v1/club/members/:id` - Cập nhật chức vụ/thông tin thành viên (theo phân cấp)
+- `DELETE /api/v1/club/members/:id` - Xóa tên khỏi danh sách CLB (giữ lại tài khoản user)
+
+### Chức vụ CLB (Club Positions)
+- `GET /api/v1/club/positions` - Liệt kê các chức vụ
+- `POST /api/v1/club/positions` - Tạo chức vụ mới (super-admin only)
+- `PUT /api/v1/club/positions/:id` - Cập nhật chức vụ (super-admin only)
+- `DELETE /api/v1/club/positions/:id` - Xóa chức vụ (super-admin only)
+
 ### Người dùng (Users)
 - `GET /api/v1/users/me` - Lấy hồ sơ người dùng hiện tại
 - `PUT /api/v1/users/me` - Cập nhật hồ sơ người dùng hiện tại
 - `GET /api/v1/users/:id` - Lấy người dùng theo ID (chỉ admin)
-- `GET /api/v1/users` - Liệt kê người dùng (chỉ admin, có phân trang)
+- `GET /api/v1/users` - Liệt kê tất cả người dùng (chỉ admin, bao gồm cả user thường và thành viên CLB)
 - `POST /api/v1/users` - Tạo người dùng mới (chỉ admin)
 - `PUT /api/v1/users/:id` - Cập nhật người dùng (chỉ admin)
 - `DELETE /api/v1/users/:id` - Xóa người dùng (chỉ admin)

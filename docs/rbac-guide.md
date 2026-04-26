@@ -7,110 +7,90 @@ Role-Based Access Control (RBAC) là hệ thống phân quyền dựa trên vai 
 
 ### Các vai trò trong CTRL/C CLUB
 
-#### 1. Super-Admin (Siêu quản trị viên)
-- Quyền cao nhất trong hệ thống
-- Có toàn quyền quản trị mọi thứ
-- Có thể quản lý các Admin khác
-- Không bị giới hạn bởi bất kỳ chính sách nào
+#### 1. Super-Admin (Siêu quản trị viên - Ban Chủ nhiệm)
+- Quyền cao nhất trong hệ thống.
+- Quản lý toàn bộ người dùng, bao gồm cả việc bổ nhiệm các chức vụ trong Ban Chủ nhiệm.
+- Quản lý cấu hình hệ thống và giao diện.
 
-#### 2. Admin (Quản trị viên)
-- Quản lý người dùng, nội dung chính
-- Có quyền tạo/sửa/xóa bài viết, danh mục
-- Quản lý Moderator và Member
-- Không được phép thay đổi cấu hình hệ thống cốt lõi
+#### 2. Club-Admin (Quản trị viên CLB - Ban Chủ nhiệm/Trưởng ban)
+- Quản lý thành viên CLB và các hoạt động nội bộ.
+- Có quyền phê duyệt thành viên mới vào CLB.
+- Quản lý sự kiện và nội dung chuyên môn.
 
-#### 3. Moderator (Điều hành viên)
-- Quản lý nội dung do User tạo ra
-- Duyệt/bỏ duyệt bài viết, bình luận
-- Khóa/mở khóa tài khoản User
-- Không có quyền thay đổi cấu hình hệ thống
+#### 3. Club-Member (Thành viên CLB)
+- Thành viên chính thức của CTRL/C CLUB.
+- Có quyền truy cập các tài nguyên nội bộ, đăng ký sự kiện ưu tiên.
+- Có chức vụ và phân cấp cụ thể (Level).
+- Được hiển thị trong danh sách "Thành viên Câu lạc bộ".
 
-#### 4. Member (Thành viên)
-- Người dùng đã đăng ký tài khoản
-- Có quyền tạo nội dung (bài viết, bình luận)
-- Chỉ có thể sửa/xóa nội dung của chính mình
-- Không có quyền quản trị
+#### 4. External-User (Thành viên ngoài)
+- Người dùng đã đăng ký tài khoản nhưng không thuộc CLB.
+- Có quyền tham gia diễn đàn công khai và đăng ký sự kiện dành cho khách.
+- **Không** hiển thị trong danh sách "Thành viên Câu lạc bộ".
+- Có các chức năng và quyền hạn hạn chế hơn so với Thành viên CLB.
 
 #### 5. Guest (Khách)
-- Người dùng chưa đăng nhập
-- Chỉ có quyền xem nội dung công khai
-- Không có quyền tạo/sửa/xóa bất kỳ nội dung nào
+- Người dùng chưa đăng nhập.
+- Chỉ có quyền xem nội dung công khai.
 
 ## 2. Permission Matrix (Bảng phân quyền)
 
-| Permission | Super-Admin | Admin | Moderator | Member | Guest |
-|------------|-------------|-------|-----------|--------|-------|
+| Permission | Super-Admin | Club-Admin | Club-Member | External-User | Guest |
+|------------|-------------|------------|-------------|---------------|-------|
 | view_dashboard | ✓ | ✓ | ✗ | ✗ | ✗ |
-| manage_users | ✓ | ✓ | ✗ | ✗ | ✗ |
+| manage_all_users | ✓ | ✓ | ✗ | ✗ | ✗ |
+| manage_club_hierarchy | ✓ | Limited* | ✗ | ✗ | ✗ |
+| access_internal_resources | ✓ | ✓ | ✓ | ✗ | ✗ |
 | create_posts | ✓ | ✓ | ✓ | ✓ | ✗ |
-| edit_posts | ✓ | ✓ | ✓ | Limited* | ✗ |
-| delete_posts | ✓ | ✓ | ✓ | Limited* | ✗ |
-| manage_categories | ✓ | ✓ | ✗ | ✗ | ✗ |
-| moderate_comments | ✓ | ✓ | ✓ | ✗ | ✗ |
-| view_analytics | ✓ | ✓ | ✗ | ✗ | ✗ |
-| manage_roles | ✓ | ✗ | ✗ | ✗ | ✗ |
-| system_config | ✓ | ✗ | ✗ | ✗ | ✗ |
+| edit_posts | ✓ | ✓ | ✓ | Limited** | ✗ |
+| manage_events | ✓ | ✓ | ✗ | ✗ | ✗ |
+| view_club_list | ✓ | ✓ | ✓ | ✗ | ✗ |
 
-*Limited: Chỉ được sửa/xóa bài viết của chính mình trong vòng 24h
+*Limited: Chỉ được quản lý cấp dưới theo phân cấp chức vụ.
+**Limited: Chỉ được sửa/xóa bài viết của chính mình trong vòng 24h.
 
-## 3. Database Schema
+## 3. Club Hierarchy (Phân cấp chức vụ)
 
-### Bảng `roles`
+Hệ thống sử dụng `level` để xác định quyền hạn trong nội bộ CLB:
+1. **Level 1**: Chủ nhiệm (Super-Admin)
+2. **Level 2**: Phó chủ nhiệm
+3. **Level 3**: Trưởng ban
+4. **Level 4**: Phó ban
+5. **Level 5**: Thành viên chính thức
+
+Quy tắc: Cấp cao hơn có quyền quản lý và thay đổi thông tin của cấp thấp hơn.
+
+## 4. Database Schema
+
+### Bảng `club_positions`
 ```sql
-CREATE TABLE roles (
+CREATE TABLE club_positions (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE,
-    display_name VARCHAR(255),
+    name VARCHAR(255) NOT NULL, -- Tên chức vụ (Chủ nhiệm, Trưởng ban...)
+    level INT NOT NULL, -- Cấp độ (1-5)
     description TEXT,
     created_at TIMESTAMP NULL,
     updated_at TIMESTAMP NULL
 );
 ```
 
-### Bảng `permissions`
+### Bảng `club_members` (Hồ sơ thành viên CLB)
 ```sql
-CREATE TABLE permissions (
+CREATE TABLE club_members (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE,
-    display_name VARCHAR(255),
-    description TEXT,
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
+    user_id BIGINT UNSIGNED NOT NULL,
+    position_id BIGINT UNSIGNED NOT NULL,
+    department VARCHAR(255), -- Ban (Kỹ thuật, Truyền thông...)
+    student_id VARCHAR(50), -- Mã sinh viên
+    joined_at DATE,
+    status ENUM('active', 'inactive', 'alumni') DEFAULT 'active',
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (position_id) REFERENCES club_positions(id)
 );
 ```
 
-### Bảng `role_has_permissions` (Pivot)
-```sql
-CREATE TABLE role_has_permissions (
-    role_id BIGINT UNSIGNED NOT NULL,
-    permission_id BIGINT UNSIGNED NOT NULL,
-    PRIMARY KEY (role_id, permission_id),
-    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
-    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE
-);
-```
-
-### Bảng `model_has_roles` (Polymorphic)
-```sql
-CREATE TABLE model_has_roles (
-    role_id BIGINT UNSIGNED NOT NULL,
-    model_type VARCHAR(255) NOT NULL,
-    model_id BIGINT UNSIGNED NOT NULL,
-    PRIMARY KEY (role_id, model_id, model_type),
-    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
-);
-```
-
-### Bảng `model_has_permissions` (Polymorphic)
-```sql
-CREATE TABLE model_has_permissions (
-    permission_id BIGINT UNSIGNED NOT NULL,
-    model_type VARCHAR(255) NOT NULL,
-    model_id BIGINT UNSIGNED NOT NULL,
-    PRIMARY KEY (permission_id, model_id, model_type),
-    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE
-);
-```
+### Bảng `roles` (RBAC cơ bản)
+... (giữ nguyên cấu trúc bảng roles và permissions hiện tại)
 
 ## 4. Laravel Implementation
 
