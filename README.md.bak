@@ -59,21 +59,8 @@ Xem thư mục [docs/](./docs/) để biết thông tin chi tiết:
 - [Hướng dẫn API](./docs/api-guide.md) - Chi tiết endpoints, xác thực, xử lý lỗi, pagination
 - [Sơ đồ luồng hệ thống](./docs/system-flow.md) - Sơ đồ luồng dữ liệu và chức năng chính
 - [Kiến trúc chi tiết](./docs/architecture.md) - Kiến trúc frontend, backend, database, authentication, real-time
-- [Chiến lược Testing](./docs/testing-strategy.md) - Testing comprehensive >80% coverage
-- [Hướng dẫn Swagger](./docs/swagger-setup.md) - API documentation chuẩn OpenAPI 3.0
 
 ## Cài đặt nhanh
-
-### Sử dụng Dev Containers (Khuyến nghị)
-
-1. Clone repository
-2. Mở trong VS Code
-3. Click "Reopen in Container" khi được yêu cầu
-4. Chờ VS Code tự động setup môi trường
-
-Xem chi tiết mục Dev Containers trong [dev-guide.md](./docs/dev-guide.md).
-
-### Cài đặt thủ công
 
 1. Clone repository
 2. Cài đặt dependencies cho frontend và backend
@@ -82,26 +69,6 @@ Xem chi tiết mục Dev Containers trong [dev-guide.md](./docs/dev-guide.md).
 5. Chạy server development
 
 Xem chi tiết trong [dev-guide.md](./docs/dev-guide.md).
-
-## Testing
-
-Chúng tôi áp dụng chiến lược testing comprehensive với mục tiêu **>80% coverage**:
-
-- **Frontend**: Jest + React Testing Library (unit tests)
-- **Frontend**: Playwright (E2E tests)
-- **Backend**: PHPUnit (unit & feature tests)
-- **Coverage**: >80% lines, branches, functions
-
-Xem chi tiết tại [testing-strategy.md](./docs/testing-strategy.md).
-
-## CI/CD
-
-- **GitHub Actions** - Tự động chạy tests trên mỗi PR
-- **Coverage enforcement** - Chặn merge nếu coverage < 80%
-- **Parallel testing** - Unit, feature, E2E chạy đồng thời
-- **Auto-deploy** - Deploy khi pass tất cả checks
-
-Xem chi tiết tại [dev-guide.md](./docs/dev-guide.md).
 
 ## Giấy phép
 
