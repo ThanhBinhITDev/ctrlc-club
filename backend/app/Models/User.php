@@ -13,32 +13,17 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -55,5 +40,25 @@ class User extends Authenticatable
     public function isClubMember()
     {
         return $this->clubMember()->exists();
+    }
+
+    /**
+     * Lấy level hiện tại của user (Nếu không phải thành viên CLB thì coi như level vô hạn)
+     */
+    public function getClubLevel()
+    {
+        return $this->clubMember?->position?->level ?? 999;
+    }
+
+    /**
+     * Kiểm tra xem user này có quyền quản lý đối tượng khác không
+     */
+    public function canManage(User $targetUser)
+    {
+        // Chủ nhiệm (Level 1) có thể làm mọi thứ
+        if ($this->getClubLevel() === 1) return true;
+
+        // Chỉ được quản lý người có level thấp hơn mình (số lớn hơn)
+        return $this->getClubLevel() < $targetUser->getClubLevel();
     }
 }

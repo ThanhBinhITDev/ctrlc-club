@@ -5,12 +5,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ClubMemberController;
 use App\Http\Controllers\Api\ClubPositionController;
+use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\AuthController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Public routes
+Route::post('/v1/login', [AuthController::class, 'login']);
 
-Route::prefix('v1')->group(function () {
+// Protected routes
+Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    // Dashboard
+    Route::get('dashboard/stats', [DashboardController::class, 'index']);
+
     // User routes
     Route::apiResource('users', UserController::class);
     

@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class ClubMemberController extends Controller
 {
-    /**
-     * Display a listing of club members only.
-     */
     public function index()
     {
         $members = ClubMember::with(['user', 'position'])
@@ -24,9 +21,6 @@ class ClubMemberController extends Controller
         return response()->json($members);
     }
 
-    /**
-     * Assign a user to the club (Promote to Club Member).
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -37,16 +31,27 @@ class ClubMemberController extends Controller
             'joined_at' => 'nullable|date',
         ]);
 
+        // Kiểm tra quyền bổ nhiệm: Bạn chỉ được bổ nhiệm chức vụ có level thấp hơn mình
+        $currentUser = $request->user();
+        $targetPosition = DB::table('club_positions')->find($validated['position_id']);
+
+        if ($currentUser->getClubLevel() >= $targetPosition->level && $currentUser->getClubLevel() !== 1) {
+            return response()->json(['message' => 'Bạn không có quyền bổ nhiệm chức vụ cao hơn hoặc bằng cấp bậc của mình.'], 403);
+        }
+
         $member = ClubMember::create($validated);
         return response()->json($member->load(['user', 'position']), 201);
     }
 
-    /**
-     * Update club member information/position.
-     */
     public function update(Request $request, string $id)
     {
-        $member = ClubMember::findOrFail($id);
+        $member = ClubMember::with('user')->findOrFail($id);
+        $currentUser = $request->user();
+
+        // Kiểm tra quyền: Chỉ cấp cao hơn mới được sửa cấp thấp hơn
+        if (!$currentUser->canManage($member->user)) {
+            return response()->json(['message' => 'Bạn không có quyền chỉnh sửa thành viên cùng cấp hoặc cao cấp hơn.'], 403);
+        }
         
         $validated = $request->validate([
             'position_id' => 'sometimes|exists:club_positions,id',
@@ -58,13 +63,17 @@ class ClubMemberController extends Controller
         return response()->json($member->load(['user', 'position']));
     }
 
-    /**
-     * Remove a member from the club (Demote to Normal User).
-     */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        $member = ClubMember::findOrFail($id);
+        $member = ClubMember::with('user')->findOrFail($id);
+        $currentUser = $request->user();
+
+        // Kiểm tra quyền xóa
+        if (!$currentUser->canManage($member->user)) {
+            return response()->json(['message' => 'Bạn không có quyền xóa thành viên cùng cấp hoặc cao cấp hơn.'], 403);
+        }
+
         $member->delete();
-        return response()->json(['message' => 'Removed from club successfully. User account remains.']);
+        return response()->json(['message' => 'Đã xóa khỏi danh sách CLB.']);
     }
 }

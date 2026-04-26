@@ -3,16 +3,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Users, ShieldCheck, LayoutDashboard, Settings } from 'lucide-react';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: any[]) {
-  return twMerge(clsx(inputs));
-}
+import { Users, ShieldCheck, LayoutDashboard, Settings, LogOut } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { user, logout } = useAuth();
 
   const menuItems = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
@@ -33,12 +29,11 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={cn(
-                "flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors",
+              className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${
                 isActive 
                   ? "bg-blue-600 text-white" 
                   : "text-gray-300 hover:bg-gray-700 hover:text-white"
-              )}
+              }`}
             >
               <item.icon className="mr-3 h-5 w-5" />
               {item.name}
@@ -46,15 +41,27 @@ export default function Sidebar() {
           );
         })}
       </nav>
+      
       <div className="p-4 border-t border-gray-800">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
-            A
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">
+              {user?.name.charAt(0)}
+            </div>
+            <div className="text-sm overflow-hidden">
+              <p className="font-medium truncate">{user?.name}</p>
+              <p className="text-gray-400 text-xs truncate">
+                {user?.club_member?.position?.name || 'Thành viên khách'}
+              </p>
+            </div>
           </div>
-          <div className="text-sm">
-            <p className="font-medium">Admin</p>
-            <p className="text-gray-400 text-xs">admin@ctrlcclub.com</p>
-          </div>
+          <button 
+            onClick={() => logout()}
+            className="text-gray-400 hover:text-red-500 transition-colors"
+            title="Đăng xuất"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </div>
