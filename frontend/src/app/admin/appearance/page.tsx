@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AppearanceEditor from "@/components/admin/AppearanceEditor";
+import { useSiteTheme } from "@/context/SiteThemeContext";
 import { defaultSiteContent } from "@/data/defaultSiteContent";
 import { siteContentService } from "@/services/api";
 import { SiteContent } from "@/types/siteContent";
@@ -12,6 +13,7 @@ export default function AppearancePage() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const { updateSiteTheme } = useSiteTheme();
 
   useEffect(() => {
     siteContentService
@@ -29,6 +31,7 @@ export default function AppearancePage() {
     try {
       const res = await siteContentService.update(content);
       setContent(res.data);
+      updateSiteTheme(res.data.theme);
       setMessage("Da cap nhat giao dien website thanh cong.");
     } catch (err: any) {
       setError(err.response?.data?.message || "Khong the luu cau hinh giao dien.");

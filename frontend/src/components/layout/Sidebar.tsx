@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Users, ShieldCheck, LayoutDashboard, Settings, LogOut, Palette } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import ThemeSwitcher from '@/components/theme/ThemeSwitcher';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -19,52 +20,81 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="flex flex-col w-64 h-screen bg-gray-900 text-white">
-      <div className="flex items-center justify-center h-16 bg-gray-800 font-bold text-xl">
-        CTRL/C CLUB
+    <aside className="sticky top-0 flex h-screen w-72 shrink-0 flex-col border-r border-[color:var(--line)] bg-[color:var(--surface-strong)]/95 backdrop-blur-xl">
+      <div className="border-b border-[color:var(--line)] px-6 py-5">
+        <Link href="/admin" className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[color:var(--foreground)] text-sm font-black text-white shadow-sm">
+            C/C
+          </div>
+          <div>
+            <p className="font-[family:var(--font-display)] text-lg font-bold tracking-tight text-[color:var(--foreground)]">
+              CTRL/C CLUB
+            </p>
+            <p className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--muted)]">
+              Admin Workspace
+            </p>
+          </div>
+        </Link>
       </div>
-      <nav className="flex-1 px-2 py-4 space-y-2">
+
+      <div className="px-4 pt-4">
+        <div className="rounded-2xl border border-[color:var(--line)] bg-white/70 px-4 py-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--muted)]">
+            Dang nhap voi
+          </p>
+          <p className="mt-2 text-sm font-semibold text-[color:var(--foreground)]">
+            {user?.club_member?.position?.name || 'Thành viên khách'}
+          </p>
+        </div>
+        <div className="mt-3">
+          <ThemeSwitcher compact />
+        </div>
+      </div>
+
+      <nav className="flex-1 space-y-2 overflow-y-auto px-4 py-4">
         {menuItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive =
+            item.href === '/admin' ? pathname === item.href : pathname.startsWith(item.href);
+
           return (
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all ${
                 isActive 
-                  ? "bg-blue-600 text-white" 
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                  ? "bg-[color:var(--foreground)] text-white shadow-[0_12px_30px_rgba(24,34,40,0.14)]" 
+                  : "text-[color:var(--muted)] hover:bg-white hover:text-[color:var(--foreground)]"
               }`}
             >
-              <item.icon className="mr-3 h-5 w-5" />
+              <item.icon className={`h-5 w-5 ${isActive ? 'text-white' : 'text-[color:var(--brand)]'}`} />
               {item.name}
             </Link>
           );
         })}
       </nav>
       
-      <div className="p-4 border-t border-gray-800">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">
-              {user?.name.charAt(0)}
+      <div className="border-t border-[color:var(--line)] p-4">
+        <div className="flex items-center justify-between gap-3 rounded-2xl border border-[color:var(--line)] bg-white/70 p-3">
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[color:var(--brand)] font-bold text-white">
+              {user?.name?.charAt(0)}
             </div>
-            <div className="text-sm overflow-hidden">
-              <p className="font-medium truncate">{user?.name}</p>
-              <p className="text-gray-400 text-xs truncate">
+            <div className="min-w-0 text-sm">
+              <p className="truncate font-semibold text-[color:var(--foreground)]">{user?.name}</p>
+              <p className="truncate text-xs text-[color:var(--muted)]">
                 {user?.club_member?.position?.name || 'Thành viên khách'}
               </p>
             </div>
           </div>
           <button 
             onClick={() => logout()}
-            className="text-gray-400 hover:text-red-500 transition-colors"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[color:var(--line)] bg-white text-[color:var(--muted)] transition hover:border-red-300 hover:text-red-600"
             title="Đăng xuất"
           >
             <LogOut className="w-5 h-5" />
           </button>
         </div>
       </div>
-    </div>
+    </aside>
   );
 }

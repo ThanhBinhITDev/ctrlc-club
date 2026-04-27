@@ -38,24 +38,6 @@ export default function Home() {
     document.title = content.brand.name;
   }, [content.brand.name]);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const entries = [
-      ["--background", content.theme.background],
-      ["--foreground", content.theme.foreground],
-      ["--muted", content.theme.muted],
-      ["--surface", content.theme.surface],
-      ["--surface-strong", content.theme.surface_strong],
-      ["--line", content.theme.line],
-      ["--brand", content.theme.brand],
-      ["--brand-deep", content.theme.brand_deep],
-      ["--accent", content.theme.accent],
-      ["--accent-soft", content.theme.accent_soft],
-    ] as const;
-
-    entries.forEach(([key, value]) => root.style.setProperty(key, value));
-  }, [content.theme]);
-
   return (
     <div className="min-h-screen">
       <Navbar brand={content.brand} navigation={content.navigation} />

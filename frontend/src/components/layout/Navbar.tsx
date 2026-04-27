@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { LogIn, LayoutDashboard, LogOut } from "lucide-react";
 import { defaultSiteContent } from "@/data/defaultSiteContent";
 import { SiteContent } from "@/types/siteContent";
+import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 
 interface NavbarProps {
   brand?: SiteContent["brand"];
@@ -52,6 +53,7 @@ export default function Navbar({
         </div>
 
         <div className="flex items-center gap-4">
+          <ThemeSwitcher compact />
           {user ? (
             <div className="flex items-center gap-3">
               <Link

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Be_Vietnam_Pro, Space_Grotesk } from "next/font/google";
 import "../styles/globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import { SiteThemeProvider } from "@/context/SiteThemeContext";
 
 const beVietnamPro = Be_Vietnam_Pro({
   subsets: ["latin"],
@@ -29,7 +30,9 @@ export default function RootLayout({
     <html lang="vi">
       <body className={`${beVietnamPro.variable} ${spaceGrotesk.variable}`}>
         <AuthProvider>
-          {children}
+          <SiteThemeProvider>
+            {children}
+          </SiteThemeProvider>
         </AuthProvider>
       </body>
     </html>
