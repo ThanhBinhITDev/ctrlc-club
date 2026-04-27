@@ -31,7 +31,7 @@ services:
       - /app/node_modules # Anonymous volume để bảo vệ node_modules trong container
       - /app/.next # Anonymous volume để bảo vệ build cache trong container
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8001/api/v1 # Cập nhật URL API mới
+      - NEXT_PUBLIC_API_URL=http://localhost:8001/api
     depends_on:
       - backend
     networks:

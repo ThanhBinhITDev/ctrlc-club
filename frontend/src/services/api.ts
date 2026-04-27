@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { SiteContent } from '@/types/siteContent';
 
+const rawBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api';
+const normalizedBaseUrl = rawBaseUrl.replace(/\/+$/, '').replace(/\/v1$/, '');
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api',
+  baseURL: normalizedBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },

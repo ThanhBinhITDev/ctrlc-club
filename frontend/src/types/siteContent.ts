@@ -26,6 +26,18 @@ export interface CultureItem {
 }
 
 export interface SiteContent {
+  theme: {
+    background: string;
+    foreground: string;
+    muted: string;
+    surface: string;
+    surface_strong: string;
+    line: string;
+    brand: string;
+    brand_deep: string;
+    accent: string;
+    accent_soft: string;
+  };
   brand: {
     name: string;
     mark: string;

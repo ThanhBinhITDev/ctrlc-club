@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
 class SiteSetting extends Model
 {
@@ -21,6 +22,18 @@ class SiteSetting extends Model
     public static function defaultSiteContent(): array
     {
         return [
+            'theme' => [
+                'background' => '#f4efe6',
+                'foreground' => '#182228',
+                'muted' => '#5e6a70',
+                'surface' => 'rgba(255, 255, 255, 0.78)',
+                'surface_strong' => '#fffdf8',
+                'line' => 'rgba(24, 34, 40, 0.12)',
+                'brand' => '#c85a2e',
+                'brand_deep' => '#8f3517',
+                'accent' => '#256b60',
+                'accent_soft' => '#dceeea',
+            ],
             'brand' => [
                 'name' => 'CTRL/C CLUB',
                 'mark' => 'C/C',
@@ -145,6 +158,10 @@ class SiteSetting extends Model
 
     public static function siteContent(): array
     {
+        if (!Schema::hasTable('site_settings')) {
+            return static::defaultSiteContent();
+        }
+
         $record = static::query()->where('key', 'site_content')->first();
 
         return static::mergeWithDefaults($record?->value ?? []);

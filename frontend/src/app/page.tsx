@@ -38,14 +38,35 @@ export default function Home() {
     document.title = content.brand.name;
   }, [content.brand.name]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    const entries = [
+      ["--background", content.theme.background],
+      ["--foreground", content.theme.foreground],
+      ["--muted", content.theme.muted],
+      ["--surface", content.theme.surface],
+      ["--surface-strong", content.theme.surface_strong],
+      ["--line", content.theme.line],
+      ["--brand", content.theme.brand],
+      ["--brand-deep", content.theme.brand_deep],
+      ["--accent", content.theme.accent],
+      ["--accent-soft", content.theme.accent_soft],
+    ] as const;
+
+    entries.forEach(([key, value]) => root.style.setProperty(key, value));
+  }, [content.theme]);
+
   return (
     <div className="min-h-screen">
       <Navbar brand={content.brand} navigation={content.navigation} />
 
       <main>
-        <section className="section-shell mx-auto grid max-w-7xl gap-10 px-4 pb-16 pt-12 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:pb-24 lg:pt-20">
+        <section className="section-shell mx-auto grid max-w-7xl gap-10 px-4 pb-16 pt-12 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:pb-24 lg:pt-20">
           <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-white/80 px-4 py-2 text-sm text-[color:var(--muted)]">
+            <div
+              className="inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-[color:var(--surface-strong)] px-4 py-2 text-sm text-[color:var(--muted)]"
+              style={{ boxShadow: "0 8px 24px rgba(0, 0, 0, 0.04)" }}
+            >
               <Sparkles className="h-4 w-4 text-[color:var(--brand)]" />
               {content.brand.description}
             </div>
@@ -54,7 +75,7 @@ export default function Home() {
               <p className="font-[family:var(--font-display)] text-sm font-semibold uppercase tracking-[0.32em] text-[color:var(--accent)]">
                 {content.hero.eyebrow}
               </p>
-              <h1 className="max-w-4xl font-[family:var(--font-display)] text-5xl font-bold leading-[1.02] tracking-tight text-[color:var(--foreground)] sm:text-6xl">
+              <h1 className="max-w-4xl font-[family:var(--font-display)] text-5xl font-bold leading-[0.98] tracking-tight text-[color:var(--foreground)] sm:text-6xl">
                 {content.hero.title}
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-[color:var(--muted)]">
@@ -66,13 +87,14 @@ export default function Home() {
               <Link
                 href={content.hero.primary_cta_url}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--brand)] px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[color:var(--brand-deep)]"
+                style={{ boxShadow: "0 14px 30px rgba(0, 0, 0, 0.14)" }}
               >
                 {content.hero.primary_cta_label}
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={content.hero.secondary_cta_url}
-                className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] bg-white px-6 py-3 text-sm font-semibold text-[color:var(--foreground)] transition hover:-translate-y-0.5 hover:border-[color:var(--accent)]"
+                className="inline-flex items-center justify-center rounded-full border border-[color:var(--line)] bg-[color:var(--surface-strong)] px-6 py-3 text-sm font-semibold text-[color:var(--foreground)] transition hover:-translate-y-0.5 hover:border-[color:var(--accent)]"
               >
                 {content.hero.secondary_cta_label}
               </Link>
@@ -85,7 +107,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="glass-panel relative rounded-[2rem] p-6 shadow-[0_24px_80px_rgba(24,34,40,0.12)] sm:p-8">
+          <div className="glass-panel relative rounded-[2rem] p-6 sm:p-8">
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[color:var(--muted)]">
@@ -106,7 +128,10 @@ export default function Home() {
               <InfoRow label="Muc tieu" value={content.spotlight.goal} />
             </div>
 
-            <div className="mt-8 rounded-[1.5rem] bg-[color:var(--foreground)] p-5 text-white">
+            <div
+              className="mt-8 rounded-[1.5rem] bg-[color:var(--foreground)] p-5 text-white"
+              style={{ boxShadow: "0 18px 50px rgba(24, 34, 40, 0.18)" }}
+            >
               <p className="text-sm uppercase tracking-[0.24em] text-white/60">
                 Huong uu tien
               </p>

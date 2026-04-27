@@ -58,14 +58,14 @@ export default function SettingsPage() {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-orange-600">
-              Website CMS
+              Website Content
             </p>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
-              Chinh sua gan nhu toan bo noi dung trang web
+              Chinh sua noi dung website
             </h1>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
-              Form nay dang dieu khien brand, menu, hero, cac section noi dung va footer
-              cua trang public. Sau khi luu, homepage se dung du lieu moi.
+              Trang nay tap trung vao noi dung: tieu de, doan mo ta, menu, hero, section,
+              CTA va footer. Phan giao dien da duoc tach rieng sang trang Giao dien.
             </p>
           </div>
 
@@ -74,7 +74,7 @@ export default function SettingsPage() {
             disabled={saving}
             className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:bg-slate-400"
           >
-            {saving ? "Dang luu..." : "Luu thay doi"}
+            {saving ? "Dang luu..." : "Luu noi dung"}
           </button>
         </div>
 

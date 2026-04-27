@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Users, ShieldCheck, LayoutDashboard, Settings, LogOut } from 'lucide-react';
+import { Users, ShieldCheck, LayoutDashboard, Settings, LogOut, Palette } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Sidebar() {
@@ -14,7 +14,8 @@ export default function Sidebar() {
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'Quản lý User', href: '/admin/users', icon: Users },
     { name: 'Thành viên CLB', href: '/admin/club-members', icon: ShieldCheck },
-    { name: 'Cài đặt', href: '/admin/settings', icon: Settings },
+    { name: 'Nội dung website', href: '/admin/settings', icon: Settings },
+    { name: 'Giao diện', href: '/admin/appearance', icon: Palette },
   ];
 
   return (

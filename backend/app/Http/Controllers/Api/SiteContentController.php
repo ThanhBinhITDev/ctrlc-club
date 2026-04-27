@@ -23,6 +23,18 @@ class SiteContentController extends Controller
         }
 
         $validated = $request->validate([
+            'theme' => 'required|array',
+            'theme.background' => 'required|string|max:40',
+            'theme.foreground' => 'required|string|max:40',
+            'theme.muted' => 'required|string|max:40',
+            'theme.surface' => 'required|string|max:60',
+            'theme.surface_strong' => 'required|string|max:40',
+            'theme.line' => 'required|string|max:60',
+            'theme.brand' => 'required|string|max:40',
+            'theme.brand_deep' => 'required|string|max:40',
+            'theme.accent' => 'required|string|max:40',
+            'theme.accent_soft' => 'required|string|max:40',
+
             'brand' => 'required|array',
             'brand.name' => 'required|string|max:255',
             'brand.mark' => 'required|string|max:50',

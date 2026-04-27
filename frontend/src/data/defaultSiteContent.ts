@@ -1,6 +1,18 @@
 import { SiteContent } from "@/types/siteContent";
 
 export const defaultSiteContent: SiteContent = {
+  theme: {
+    background: "#f4efe6",
+    foreground: "#182228",
+    muted: "#5e6a70",
+    surface: "rgba(255, 255, 255, 0.78)",
+    surface_strong: "#fffdf8",
+    line: "rgba(24, 34, 40, 0.12)",
+    brand: "#c85a2e",
+    brand_deep: "#8f3517",
+    accent: "#256b60",
+    accent_soft: "#dceeea",
+  },
   brand: {
     name: "CTRL/C CLUB",
     mark: "C/C",
