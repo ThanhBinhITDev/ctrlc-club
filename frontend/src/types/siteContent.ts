@@ -37,6 +37,11 @@ export interface SiteContent {
     brand_deep: string;
     accent: string;
     accent_soft: string;
+    success: string;
+    warning: string;
+    danger: string;
+    info: string;
+    focus: string;
   };
   brand: {
     name: string;
@@ -87,12 +92,18 @@ export interface SiteContent {
     cta_label: string;
     cta_url: string;
   };
-  footer: {
+   footer: {
     title: string;
     description: string;
     email: string;
     address: string;
     copyright: string;
     links: LinkItem[];
+  };
+  typography: {
+    fontFamily: {
+      heading: string;
+      body: string;
+    };
   };
 }

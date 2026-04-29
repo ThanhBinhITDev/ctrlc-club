@@ -8,6 +8,34 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      borderRadius: {
+        'sm': '10px',
+        'md': '14px',
+        'lg': '18px',
+        'xl': '24px',
+        'pill': '999px',
+      },
+      colors: {
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        muted: 'var(--muted)',
+        surface: 'var(--surface)',
+        'surface-strong': 'var(--surface-strong)',
+        line: 'var(--line)',
+        brand: 'var(--brand)',
+        'brand-deep': 'var(--brand-deep)',
+        accent: 'var(--accent)',
+        'accent-soft': 'var(--accent-soft)',
+        success: 'var(--success)',
+        warning: 'var(--warning)',
+        danger: 'var(--danger)',
+        info: 'var(--info)',
+        focus: 'var(--focus)',
+      },
+      fontFamily: {
+        sans: ['var(--font-sans)', 'sans-serif'],
+        display: ['var(--font-display)', 'sans-serif'],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

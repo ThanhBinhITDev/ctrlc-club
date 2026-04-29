@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { dashboardService } from '@/services/api';
-import { Users, ShieldCheck, UserPlus, BarChart3 } from 'lucide-react';
+import { Users, ShieldCheck, UserPlus, BarChart3, ArrowUpRight } from 'lucide-react';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<any>(null);
@@ -18,57 +18,67 @@ export default function AdminDashboard() {
     });
   }, []);
 
-  if (loading) return <div className="p-8">Đang tải thống kê...</div>;
+  if (loading) return (
+    <div className="flex h-full items-center justify-center">
+      <div className="flex flex-col items-center gap-4 text-muted">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand border-t-transparent" />
+        <p className="text-xs font-medium uppercase tracking-widest">Đang tải dữ liệu...</p>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-8 text-gray-800">Tổng quan hệ thống</h1>
-      
+    <div className="space-y-8 animate-in fade-in duration-500">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard 
           title="Tổng người dùng" 
           count={stats?.total_users} 
-          icon={<Users className="w-6 h-6 text-blue-600" />} 
-          color="bg-blue-50"
+          icon={Users} 
+          color="brand"
         />
         <StatCard 
           title="Thành viên CLB" 
           count={stats?.total_members} 
-          icon={<ShieldCheck className="w-6 h-6 text-green-600" />} 
-          color="bg-green-50"
+          icon={ShieldCheck} 
+          color="success"
         />
         <StatCard 
           title="Thành viên mới" 
           count={stats?.recent_members?.length} 
-          icon={<UserPlus className="w-6 h-6 text-purple-600" />} 
-          color="bg-purple-50"
+          icon={UserPlus} 
+          color="accent"
         />
         <StatCard 
           title="Số lượng Ban" 
           count={stats?.members_by_department?.length} 
-          icon={<BarChart3 className="w-6 h-6 text-orange-600" />} 
-          color="bg-orange-50"
+          icon={BarChart3} 
+          color="info"
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Recent Members List */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <h2 className="text-lg font-semibold mb-4 text-gray-700 border-b pb-2">Thành viên mới gia nhập</h2>
-          <div className="space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Members Table-like List */}
+        <div className="rounded-md border border-line bg-surface shadow-sm overflow-hidden">
+          <div className="flex items-center justify-between border-b border-line px-5 py-4 bg-surface-strong/50">
+            <h2 className="text-sm font-bold text-foreground">Thành viên mới gia nhập</h2>
+            <button className="text-[10px] font-bold uppercase tracking-wider text-brand hover:underline flex items-center gap-1">
+              Xem tất cả <ArrowUpRight className="h-3 w-3" />
+            </button>
+          </div>
+          <div className="divide-y divide-line">
             {stats?.recent_members?.map((member: any) => (
-              <div key={member.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-600">
+              <div key={member.id} className="flex items-center justify-between px-5 py-3 hover:bg-surface-strong/30 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded bg-surface-strong border border-line text-[10px] font-bold text-foreground shadow-sm">
                     {member.user?.name.charAt(0)}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-800">{member.user?.name}</p>
-                    <p className="text-xs text-gray-500">{member.position?.name} • {member.department}</p>
+                    <p className="text-xs font-bold text-foreground">{member.user?.name}</p>
+                    <p className="text-[10px] text-muted">{member.position?.name} • {member.department}</p>
                   </div>
                 </div>
-                <span className="text-xs text-gray-400">
+                <span className="text-[10px] font-medium text-muted">
                   {new Date(member.created_at).toLocaleDateString('vi-VN')}
                 </span>
               </div>
@@ -76,19 +86,21 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Members by Department */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-          <h2 className="text-lg font-semibold mb-4 text-gray-700 border-b pb-2">Phân bố theo Ban</h2>
-          <div className="space-y-4">
+        {/* Members by Department Progress */}
+        <div className="rounded-md border border-line bg-surface shadow-sm overflow-hidden">
+          <div className="border-b border-line px-5 py-4 bg-surface-strong/50">
+            <h2 className="text-sm font-bold text-foreground">Phân bổ theo Ban</h2>
+          </div>
+          <div className="p-6 space-y-5">
             {stats?.members_by_department?.map((dept: any) => (
-              <div key={dept.department} className="space-y-1">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600 font-medium">{dept.department || 'Chưa phân ban'}</span>
-                  <span className="text-gray-900 font-bold">{dept.count}</span>
+              <div key={dept.department} className="space-y-2">
+                <div className="flex justify-between items-end">
+                  <span className="text-[11px] font-bold text-foreground uppercase tracking-tight">{dept.department || 'Chưa phân ban'}</span>
+                  <span className="text-[10px] font-bold text-muted">{dept.count} thành viên</span>
                 </div>
-                <div className="w-full bg-gray-100 rounded-full h-2">
+                <div className="h-1.5 w-full bg-surface-strong rounded-full overflow-hidden">
                   <div 
-                    className="bg-blue-500 h-2 rounded-full" 
+                    className="h-full bg-brand rounded-full transition-all duration-700" 
                     style={{ width: `${(dept.count / stats.total_members) * 100}%` }}
                   ></div>
                 </div>
@@ -101,15 +113,24 @@ export default function AdminDashboard() {
   );
 }
 
-function StatCard({ title, count, icon, color }: any) {
+function StatCard({ title, count, icon: Icon, color }: any) {
+  const colorMap: Record<string, string> = {
+    brand: "bg-brand/10 text-brand border-brand/20",
+    success: "bg-success/10 text-success border-success/20",
+    accent: "bg-accent/10 text-accent border-accent/20",
+    info: "bg-info/10 text-info border-info/20",
+  };
+
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center space-x-4">
-      <div className={`p-3 rounded-lg ${color}`}>
-        {icon}
-      </div>
-      <div>
-        <p className="text-sm text-gray-500 font-medium">{title}</p>
-        <p className="text-2xl font-bold text-gray-900">{count}</p>
+    <div className="group rounded-md border border-line bg-surface p-5 shadow-sm transition-all hover:shadow-md hover:border-brand/30">
+      <div className="flex items-center gap-4">
+        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md border transition-transform group-hover:scale-110 ${colorMap[color]}`}>
+          <Icon className="h-5 w-5" />
+        </div>
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted">{title}</p>
+          <p className="mt-1 text-2xl font-black text-foreground">{count}</p>
+        </div>
       </div>
     </div>
   );

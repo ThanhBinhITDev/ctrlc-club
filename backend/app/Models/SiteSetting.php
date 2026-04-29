@@ -141,7 +141,7 @@ class SiteSetting extends Model
                 'cta_label' => 'Mo dashboard',
                 'cta_url' => '/admin',
             ],
-            'footer' => [
+             'footer' => [
                 'title' => 'CTRL/C CLUB',
                 'description' => 'Noi ket noi sinh vien yeu cong nghe thong qua du an, workshop va van hoa lam viec tu te.',
                 'email' => 'hello@ctrlcclub.com',
@@ -151,6 +151,12 @@ class SiteSetting extends Model
                     ['label' => 'Dang nhap', 'href' => '/login'],
                     ['label' => 'Dashboard', 'href' => '/admin'],
                     ['label' => 'Gioi thieu', 'href' => '/#gioi-thieu'],
+                ],
+            ],
+            'typography' => [
+                'fontFamily' => [
+                    'heading' => 'be-vietnam-pro',
+                    'body' => 'inter',
                 ],
             ],
         ];

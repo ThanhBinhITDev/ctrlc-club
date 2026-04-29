@@ -429,7 +429,11 @@ export default function SettingsPage() {
                 />
               </div>
             ))}
-          </div>
+           </div>
+        </SectionCard>
+
+        <SectionCard title="Cài đặt Font chữ">
+          <p>Tính năng đang được bảo trì.</p>
         </SectionCard>
       </div>
     </div>

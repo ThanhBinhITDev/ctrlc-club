@@ -106,10 +106,15 @@ class SiteContentController extends Controller
             'footer.copyright' => 'required|string|max:255',
             'footer.links' => 'required|array|min:1|max:8',
             'footer.links.*.label' => 'required|string|max:80',
-            'footer.links.*.href' => 'required|string|max:255',
-        ]);
+             'footer.links.*.href' => 'required|string|max:255',
 
-        $content = SiteSetting::mergeWithDefaults($validated);
+             'typography' => 'required|array',
+             'typography.fontFamily' => 'required|array',
+             'typography.fontFamily.heading' => 'required|string|max:50',
+             'typography.fontFamily.body' => 'required|string|max:50',
+         ]);
+
+         $content = SiteSetting::mergeWithDefaults($validated);
 
         $setting = SiteSetting::query()->updateOrCreate(
             ['key' => 'site_content'],

@@ -1,45 +1,55 @@
 import Link from "next/link";
-import { SiteContent } from "@/types/siteContent";
 
-export default function Footer({ content }: { content: SiteContent["footer"] }) {
+export default function Footer({ content }: any) {
+  if (!content) return null;
+
   return (
-    <footer className="border-t border-[color:var(--line)] bg-[rgba(255,255,255,0.58)]">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8">
-        <div>
-          <h2 className="font-[family:var(--font-display)] text-2xl font-bold text-[color:var(--foreground)]">
-            {content.title}
-          </h2>
-          <p className="mt-3 max-w-xl text-sm leading-7 text-[color:var(--muted)]">
-            {content.description}
-          </p>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--muted)]">
-              Lien he
+    <footer className="bg-white px-4 pb-12 pt-24">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-16 lg:grid-cols-2">
+          <div className="space-y-8">
+            <h2 className="font-display text-4xl font-black tracking-tighter text-foreground uppercase">
+              {content.title}
+            </h2>
+            <p className="max-w-md text-lg leading-relaxed text-muted">
+              {content.description}
             </p>
-            <p className="mt-3 text-sm text-[color:var(--foreground)]">{content.email}</p>
-            <p className="mt-2 text-sm text-[color:var(--muted)]">{content.address}</p>
           </div>
 
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--muted)]">
-              Dieu huong
-            </p>
-            <div className="mt-3 flex flex-col gap-2">
-              {content.links.map((link) => (
-                <Link key={`${link.label}-${link.href}`} href={link.href} className="text-sm text-[color:var(--foreground)] transition hover:text-[color:var(--brand)]">
-                  {link.label}
-                </Link>
-              ))}
+          <div className="grid gap-8 sm:grid-cols-2">
+            <div className="space-y-6">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand">Contact</p>
+              <div className="space-y-2">
+                <p className="text-sm font-bold text-foreground">{content.email}</p>
+                <p className="text-sm text-muted">{content.address}</p>
+              </div>
+            </div>
+            <div className="space-y-6">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand">Navigation</p>
+              <div className="flex flex-col gap-3">
+                {content.links?.map((link: any) => (
+                  <Link 
+                    key={link.href} 
+                    href={link.href} 
+                    className="text-sm font-medium text-foreground transition hover:text-brand"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="border-t border-[color:var(--line)] px-4 py-4 text-center text-xs text-[color:var(--muted)]">
-        {content.copyright}
+        
+        <div className="mt-24 flex flex-col items-center justify-between gap-6 border-t border-line pt-8 sm:flex-row">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+            {content.copyright}
+          </p>
+          <div className="flex gap-8">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Privacy</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Terms</span>
+          </div>
+        </div>
       </div>
     </footer>
   );

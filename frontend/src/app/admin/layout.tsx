@@ -16,21 +16,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   }, [user, loading, router]);
 
-  if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Đang kiểm tra quyền truy cập...</div>;
-  }
-
-  if (!user) {
-    return null;
-  }
+  if (loading) return null;
+  if (!user) return null;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[color:var(--background)]">
+    <div className="flex h-screen w-full bg-white overflow-hidden">
+      {/* Cột 1: Sidebar cố định */}
       <Sidebar />
-      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+      
+      {/* Cột 2: Nội dung chính */}
+      <div className="flex flex-1 min-w-0 flex-col overflow-hidden">
         <AdminTopbar />
-        <main className="flex-1 overflow-y-auto">
-          <div className="min-h-full bg-transparent">
+        
+        <main className="flex-1 overflow-y-auto bg-surface-strong/20">
+          <div className="mx-auto w-full max-w-[1440px] p-6 lg:p-10">
             {children}
           </div>
         </main>

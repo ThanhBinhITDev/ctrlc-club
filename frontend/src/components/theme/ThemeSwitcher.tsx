@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Palette, RotateCcw, X } from "lucide-react";
 import { useSiteTheme } from "@/context/SiteThemeContext";
+import FontSwitcher from "./FontSwitcher";
 
 export default function ThemeSwitcher({ compact = false }: { compact?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -29,7 +30,7 @@ export default function ThemeSwitcher({ compact = false }: { compact?: boolean }
         ref={buttonRef}
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className={`inline-flex items-center gap-2 rounded-full border border-[color:var(--line)] bg-white/90 text-[color:var(--foreground)] transition hover:border-[color:var(--brand)] ${
+        className={`inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-white/90 text-[var(--foreground)] transition hover:border-[var(--brand)] ${
           compact ? "px-3 py-2 text-xs font-semibold" : "px-4 py-2 text-sm font-semibold"
         }`}
       >
@@ -47,7 +48,7 @@ export default function ThemeSwitcher({ compact = false }: { compact?: boolean }
           />
 
           <div
-            className="fixed z-[121] w-[min(360px,calc(100vw-24px))] rounded-[1.5rem] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-4 shadow-[0_28px_80px_rgba(0,0,0,0.18)]"
+            className="fixed z-[121] w-[min(360px,calc(100vw-24px))] rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-strong)] p-4 shadow-[0_28px_80px_rgba(0,0,0,0.18)]"
             style={
               panelStyle
                 ? { top: panelStyle.top, right: panelStyle.right }
@@ -56,31 +57,35 @@ export default function ThemeSwitcher({ compact = false }: { compact?: boolean }
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-sm font-semibold text-[color:var(--foreground)]">Theme Switcher</p>
-                <p className="text-xs text-[color:var(--muted)]">Doi nhanh giao dien cho phien hien tai</p>
+                <p className="text-sm font-semibold text-[var(--foreground)]">Theme Switcher</p>
+                 <p className="text-xs text-[var(--muted)]">Đổi nhanh giao diện cho phiên hiện tại</p>
               </div>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--line)] text-[color:var(--muted)] transition hover:text-[color:var(--foreground)]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--line)] text-[var(--muted)] transition hover:text-[var(--foreground)]"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="mt-3 flex justify-end">
-              <button
-                type="button"
-                onClick={() => {
-                  resetTheme();
-                  setOpen(false);
-                }}
-                className="inline-flex items-center gap-1 rounded-full border border-[color:var(--line)] px-3 py-1 text-xs font-semibold text-[color:var(--muted)] hover:text-[color:var(--foreground)]"
-              >
-                <RotateCcw className="h-3.5 w-3.5" />
-                Mac dinh
-              </button>
-            </div>
+              <div className="mt-3 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetTheme();
+                    setOpen(false);
+                  }}
+                  className="inline-flex items-center gap-1 rounded-full border border-[color:var(--line)] px-3 py-1 text-xs font-semibold text-[color:var(--muted)] hover:text-[color:var(--foreground)]"
+                >
+                  <RotateCcw className="h-3.5 w-3.5" />
+                   Mac định
+                </button>
+              </div>
+
+              <div className="mt-4 border-t border-[color:var(--line)] pt-4">
+                <FontSwitcher />
+              </div>
 
             <div className="mt-4 grid max-h-[min(70vh,560px)] gap-3 overflow-y-auto pr-1">
               {presets.map((preset) => (
@@ -93,8 +98,8 @@ export default function ThemeSwitcher({ compact = false }: { compact?: boolean }
                   }}
                   className={`rounded-2xl border p-3 text-left transition ${
                     activePresetId === preset.id
-                      ? "border-[color:var(--brand)] bg-white"
-                      : "border-[color:var(--line)] bg-white/70 hover:border-[color:var(--brand)]"
+                      ? "border-[var(--brand)] bg-white"
+                      : "border-[var(--line)] bg-white/70 hover:border-[var(--brand)]"
                   }`}
                 >
                   <div className="flex gap-2">
@@ -102,8 +107,8 @@ export default function ThemeSwitcher({ compact = false }: { compact?: boolean }
                       <div key={color} className="h-6 w-6 rounded-full border border-black/5" style={{ background: color }} />
                     ))}
                   </div>
-                  <p className="mt-3 text-sm font-semibold text-[color:var(--foreground)]">{preset.name}</p>
-                  <p className="mt-1 text-xs leading-5 text-[color:var(--muted)]">{preset.description}</p>
+                  <p className="mt-3 text-sm font-semibold text-[var(--foreground)]">{preset.name}</p>
+                  <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{preset.description}</p>
                 </button>
               ))}
             </div>

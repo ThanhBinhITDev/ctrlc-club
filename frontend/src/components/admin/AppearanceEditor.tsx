@@ -15,8 +15,8 @@ export default function AppearanceEditor({
       <section className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-slate-900">Theme</h2>
         <p className="mt-3 text-sm leading-7 text-slate-600">
-          Chon mot mau giao dien co san, xem preview, sau do neu can thi chi tinh chinh 2
-          mau chinh. Cac thong so sau hon da duoc dua xuong cuoi trang.
+          Chọn một màu giao diện có sẵn, xem preview, sau đó nếu cần thì chỉ tinh chỉnh 2
+          màu chính. Các thông số sau hơn đã được đưa xuống cuối trang.
         </p>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -41,15 +41,15 @@ export default function AppearanceEditor({
       </section>
 
       <section className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">Tinh Chinh Nhanh</h2>
+        <h2 className="text-lg font-semibold text-slate-900">Tinh Chỉnh Nhanh</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <ColorInput
-            label="Mau nut chinh"
+            label="Màu nút chính"
             value={content.theme.brand}
             onChange={(value) => onThemeChange(buildThemeFromCore(content.theme, { brand: value }))}
           />
           <ColorInput
-            label="Mau nhan phu"
+            label="Màu nhân phụ"
             value={content.theme.accent}
             onChange={(value) => onThemeChange(buildThemeFromCore(content.theme, { accent: value }))}
           />
@@ -60,12 +60,12 @@ export default function AppearanceEditor({
         </div>
       </section>
 
-      <details className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6">
+        <details className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6">
         <summary className="cursor-pointer text-sm font-semibold text-slate-700">
-          Mo tuy chinh nang cao
+          Mở tùy chỉnh nâng cao
         </summary>
         <p className="mt-3 text-sm leading-6 text-slate-600">
-          Danh cho luc can can thiep sau vao nen, vien va do tuong phan.
+          Dành cho lúc cần can thiệp sâu vào nền, viền và độ tương phản.
         </p>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -181,11 +181,11 @@ function ThemePreview({
           <p className="text-sm font-semibold uppercase tracking-[0.28em]" style={{ color: theme.accent }}>
             Preview
           </p>
-          <h3 className="mt-3 font-[family:var(--font-display)] text-3xl font-bold">
-            Giao dien sach, can doi va de dieu chinh theo thuong hieu.
+          <h3 className="mt-3 text-3xl font-bold font-display">
+            Giao diện sạch, cân đối và dễ điều chỉnh theo thương hiệu.
           </h3>
           <p className="mt-3 text-sm leading-7" style={{ color: theme.muted }}>
-            O preview nay ban co the nhin nhanh tuong quan giua nen, text, border va hai mau chu dao.
+            Ở preview này bạn có thể nhìn nhanh tương quan giữa nền, text, border và hai màu chủ đạo.
           </p>
           <div className="mt-5 flex gap-3">
             <span className="rounded-full px-4 py-2 text-sm font-semibold text-white" style={{ background: theme.brand }}>

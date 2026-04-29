@@ -1,86 +1,113 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { defaultSiteContent } from "@/data/defaultSiteContent";
-import { themePresets } from "@/data/themePresets";
-import { siteContentService } from "@/services/api";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { SiteContent } from "@/types/siteContent";
+import { themePresets } from "@/data/themePresets";
+import { defaultSiteContent } from "@/data/defaultSiteContent";
 
-const STORAGE_KEY = "ctrlc-theme-preset";
-
-type SiteThemeContextType = {
-  siteTheme: SiteContent["theme"];
+interface SiteThemeContextType {
   activePresetId: string | null;
-  applyPreset: (presetId: string) => void;
-  resetTheme: () => void;
-  updateSiteTheme: (theme: SiteContent["theme"]) => void;
   presets: typeof themePresets;
-};
+  applyPreset: (id: string) => void;
+  updateSiteTheme: (theme: SiteContent["theme"]) => void;
+  resetTheme: () => void;
+  siteTypography: SiteContent["typography"];
+  updateTypography: (typography: SiteContent["typography"]) => void;
+}
 
 const SiteThemeContext = createContext<SiteThemeContextType | undefined>(undefined);
 
 export function SiteThemeProvider({ children }: { children: React.ReactNode }) {
-  const [siteTheme, setSiteTheme] = useState<SiteContent["theme"]>(defaultSiteContent.theme);
   const [activePresetId, setActivePresetId] = useState<string | null>(null);
+  const [siteTypography, setSiteTypography] = useState<SiteContent["typography"]>(
+    defaultSiteContent.typography
+  );
 
-  useEffect(() => {
-    siteContentService
-      .getPublic()
-      .then((res) => {
-        const nextTheme = res.data.theme ?? defaultSiteContent.theme;
-        setSiteTheme(nextTheme);
-
-        const storedPresetId = localStorage.getItem(STORAGE_KEY);
-        if (storedPresetId) {
-          const preset = themePresets.find((item) => item.id === storedPresetId);
-          if (preset) {
-            applyThemeVariables(preset.theme);
-            setActivePresetId(storedPresetId);
-            return;
-          }
-        }
-
-        applyThemeVariables(nextTheme);
-        setActivePresetId(null);
-      })
-      .catch(() => {
-        applyThemeVariables(defaultSiteContent.theme);
-      });
-  }, []);
-
-  const applyPreset = (presetId: string) => {
-    const preset = themePresets.find((item) => item.id === presetId);
-    if (!preset) return;
-
-    applyThemeVariables(preset.theme);
-    localStorage.setItem(STORAGE_KEY, presetId);
-    setActivePresetId(presetId);
+  const applyThemeToCSSVariables = (theme: SiteContent["theme"]) => {
+    const root = document.documentElement;
+    Object.entries(theme).forEach(([key, value]) => {
+      const cssVarName = `--${key.replace(/_/g, "-")}`;
+      root.style.setProperty(cssVarName, value);
+    });
   };
 
-  const resetTheme = () => {
-    applyThemeVariables(siteTheme);
-    localStorage.removeItem(STORAGE_KEY);
-    setActivePresetId(null);
+  const applyTypographyToCSSVariables = (typography: SiteContent["typography"]) => {
+    const root = document.documentElement;
+    const fontMap: Record<string, string> = {
+      "be-vietnam-pro": "var(--font-be-vietnam-pro)",
+      "montserrat": "var(--font-montserrat)",
+      "inter": "var(--font-inter)",
+      "plus-jakarta": "var(--font-plus-jakarta)",
+      "lexend": "var(--font-lexend)",
+    };
+    const headingFont = fontMap[typography.fontFamily.heading] || "var(--font-sans)";
+    const bodyFont = fontMap[typography.fontFamily.body] || "var(--font-sans)";
+    
+    root.style.setProperty("--font-heading", headingFont);
+    root.style.setProperty("--font-body", bodyFont);
+  };
+
+  const applyPreset = (id: string) => {
+    const preset = themePresets.find((p) => p.id === id);
+    if (preset) {
+      setActivePresetId(id);
+      applyThemeToCSSVariables(preset.theme);
+      localStorage.setItem("site-theme-preset", id);
+    }
   };
 
   const updateSiteTheme = (theme: SiteContent["theme"]) => {
-    setSiteTheme(theme);
-
-    const storedPresetId = localStorage.getItem(STORAGE_KEY);
-    if (!storedPresetId) {
-      applyThemeVariables(theme);
-    }
+    setActivePresetId(null);
+    applyThemeToCSSVariables(theme);
   };
+
+  const updateTypography = (typography: SiteContent["typography"]) => {
+    setSiteTypography(typography);
+    applyTypographyToCSSVariables(typography);
+    localStorage.setItem("site-typography", JSON.stringify(typography));
+  };
+
+  const resetTheme = () => {
+    setActivePresetId(null);
+    applyThemeToCSSVariables(defaultSiteContent.theme);
+    updateTypography(defaultSiteContent.typography);
+    localStorage.removeItem("site-theme-preset");
+    localStorage.removeItem("site-typography");
+  };
+
+  useEffect(() => {
+    // Initial load from localStorage
+    const savedPresetId = localStorage.getItem("site-theme-preset");
+    if (savedPresetId) {
+      applyPreset(savedPresetId);
+    } else {
+      applyThemeToCSSVariables(defaultSiteContent.theme);
+    }
+
+    const savedTypography = localStorage.getItem("site-typography");
+    if (savedTypography) {
+      try {
+        const parsed = JSON.parse(savedTypography);
+        setSiteTypography(parsed);
+        applyTypographyToCSSVariables(parsed);
+      } catch (e) {
+        applyTypographyToCSSVariables(defaultSiteContent.typography);
+      }
+    } else {
+      applyTypographyToCSSVariables(defaultSiteContent.typography);
+    }
+  }, []);
 
   return (
     <SiteThemeContext.Provider
       value={{
-        siteTheme,
         activePresetId,
-        applyPreset,
-        resetTheme,
-        updateSiteTheme,
         presets: themePresets,
+        applyPreset,
+        updateSiteTheme,
+        resetTheme,
+        siteTypography,
+        updateTypography,
       }}
     >
       {children}
@@ -90,27 +117,8 @@ export function SiteThemeProvider({ children }: { children: React.ReactNode }) {
 
 export function useSiteTheme() {
   const context = useContext(SiteThemeContext);
-  if (!context) {
-    throw new Error("useSiteTheme must be used within SiteThemeProvider");
+  if (context === undefined) {
+    throw new Error("useSiteTheme must be used within a SiteThemeProvider");
   }
-
   return context;
-}
-
-function applyThemeVariables(theme: SiteContent["theme"]) {
-  const root = document.documentElement;
-  const entries = [
-    ["--background", theme.background],
-    ["--foreground", theme.foreground],
-    ["--muted", theme.muted],
-    ["--surface", theme.surface],
-    ["--surface-strong", theme.surface_strong],
-    ["--line", theme.line],
-    ["--brand", theme.brand],
-    ["--brand-deep", theme.brand_deep],
-    ["--accent", theme.accent],
-    ["--accent-soft", theme.accent_soft],
-  ] as const;
-
-  entries.forEach(([key, value]) => root.style.setProperty(key, value));
 }
