@@ -105,14 +105,35 @@ Xem chi tiết tại [dev-guide.md](./docs/dev-guide.md).
 
 ## Contributors
 
-### Lead Developer
-- **Thanh Binh** ([@ThanhBinhITDev](https://github.com/ThanhBinhITDev))
-
-### AI Collaborators
-- **Antigravity** (Google DeepMind) - Lead AI Architectural Support & System Design
-- **Geminicli** - AI Development Support
-- **Codex** - Logic & Feature Implementation
-- **Claude** - Component Design & Optimization
+<table style="width: 100%; border-collapse: collapse; border: none;">
+  <tr style="border: none;">
+    <td align="center" style="border: none; padding: 20px; width: 20%;">
+      <img src="https://github.com/ThanhBinhITDev.png" width="80px;" style="border-radius: 50%;" alt="Thanh Binh"/><br />
+      <sub style="font-size: 14px;"><b>Thanh Binh</b></sub><br />
+      <span style="font-size: 11px; color: #666;">Lead Developer</span>
+    </td>
+    <td align="center" style="border: none; padding: 20px; width: 20%;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" width="80px;" alt="Antigravity"/><br />
+      <sub style="font-size: 14px;"><b>Antigravity</b></sub><br />
+      <span style="font-size: 11px; color: #666;">AI Architect</span>
+    </td>
+    <td align="center" style="border: none; padding: 20px; width: 20%;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2103/2103507.png" width="80px;" alt="Geminicli"/><br />
+      <sub style="font-size: 14px;"><b>Geminicli</b></sub><br />
+      <span style="font-size: 11px; color: #666;">AI Support</span>
+    </td>
+    <td align="center" style="border: none; padding: 20px; width: 20%;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2103/2103665.png" width="80px;" alt="Codex"/><br />
+      <sub style="font-size: 14px;"><b>Codex</b></sub><br />
+      <span style="font-size: 11px; color: #666;">Logic & Features</span>
+    </td>
+    <td align="center" style="border: none; padding: 20px; width: 20%;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2103/2103444.png" width="80px;" alt="Claude"/><br />
+      <sub style="font-size: 14px;"><b>Claude</b></sub><br />
+      <span style="font-size: 11px; color: #666;">UI & Design</span>
+    </td>
+  </tr>
+</table>
 
 ## Giấy phép
 
