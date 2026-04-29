@@ -7,7 +7,7 @@ import Footer from "@/components/layout/Footer";
 import { defaultSiteContent } from "@/data/defaultSiteContent";
 import { siteContentService } from "@/services/api";
 import { SiteContent } from "@/types/siteContent";
-import { ArrowRight, Sparkles, Zap, Check, Command } from "lucide-react";
+import { ArrowRight, Sparkles, Zap, Check, Command, ChevronDown } from "lucide-react";
 import Particles from "@/components/ui/Particles";
 
 export default function Home() {
@@ -71,6 +71,19 @@ export default function Home() {
                 <p className="mt-1 text-xs font-bold uppercase tracking-widest text-muted">{stat.label}</p>
               </div>
             ))}
+          </div>
+
+          {/* Scroll Down Indicator */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-20">
+            <button
+              onClick={() => {
+                const intro = document.getElementById(content.introduction.section_id);
+                intro?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-line bg-white/50 text-muted transition hover:bg-white hover:text-brand shadow-lg backdrop-blur-sm"
+            >
+              <ChevronDown className="h-6 w-6" />
+            </button>
           </div>
         </section>
 
