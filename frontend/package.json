@@ -2,6 +2,13 @@
   "name": "ctrlc-club-frontend",
   "version": "0.1.0",
   "private": true,
+  "contributors": [
+    "Thanh Binh <focuqen@gmail.com>",
+    "Antigravity (AI)",
+    "Geminicli (AI)",
+    "Codex (AI)",
+    "Claude (AI)"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

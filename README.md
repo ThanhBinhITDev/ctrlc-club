@@ -103,6 +103,17 @@ Xem chi tiết tại [testing-strategy.md](./docs/testing-strategy.md).
 
 Xem chi tiết tại [dev-guide.md](./docs/dev-guide.md).
 
+## Contributors
+
+### Lead Developer
+- **Thanh Binh** ([@ThanhBinhITDev](https://github.com/ThanhBinhITDev))
+
+### AI Collaborators
+- **Antigravity** (Google DeepMind) - Lead AI Architectural Support & System Design
+- **Geminicli** - AI Development Support
+- **Codex** - Logic & Feature Implementation
+- **Claude** - Component Design & Optimization
+
 ## Giấy phép
 
 Dự án này được cấp phép dưới giấy phép MIT.
