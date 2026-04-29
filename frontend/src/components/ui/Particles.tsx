@@ -56,18 +56,42 @@ export default function Particles({
     const drawParticles = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = color;
-      ctx.globalAlpha = opacity;
+      ctx.strokeStyle = color;
 
-      particles.forEach((p) => {
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        
+        // Draw particle
+        ctx.globalAlpha = p.opacity * opacity;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
 
-        p.x += p.x > canvas.width ? -canvas.width : p.speedX;
-        p.x += p.x < 0 ? canvas.width : 0;
-        p.y += p.y > canvas.height ? -canvas.height : p.speedY;
-        p.y += p.y < 0 ? canvas.height : 0;
-      });
+        // Draw lines (Constellation effect)
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 120) {
+            ctx.globalAlpha = (1 - distance / 120) * 0.2 * opacity;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        if (p.x > canvas.width) p.x = 0;
+        else if (p.x < 0) p.x = canvas.width;
+        if (p.y > canvas.height) p.y = 0;
+        else if (p.y < 0) p.y = canvas.height;
+      }
 
       animationFrameId = requestAnimationFrame(drawParticles);
     };
