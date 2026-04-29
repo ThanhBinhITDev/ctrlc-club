@@ -21,6 +21,7 @@ export default function Particles({
   opacity?: number;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -46,11 +47,18 @@ export default function Particles({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           size: Math.random() * 2 + 0.5,
-          speedX: (Math.random() - 0.5) * 0.5,
-          speedY: (Math.random() - 0.5) * 0.5,
+          speedX: (Math.random() - 0.5) * 0.4,
+          speedY: (Math.random() - 0.5) * 0.4,
           opacity: Math.random() * 0.5 + 0.2,
         });
       }
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current = {
+        x: e.clientX,
+        y: e.clientY,
+      };
     };
 
     const drawParticles = () => {
@@ -67,7 +75,7 @@ export default function Particles({
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
 
-        // Draw lines (Constellation effect)
+        // Draw lines between particles
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p.x - p2.x;
@@ -84,6 +92,19 @@ export default function Particles({
           }
         }
 
+        // Mouse interaction
+        const mdx = p.x - mouseRef.current.x;
+        const mdy = p.y - mouseRef.current.y;
+        const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (mDist < 180) {
+          ctx.globalAlpha = (1 - mDist / 180) * 0.3 * opacity;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
+          ctx.stroke();
+        }
+
         p.x += p.speedX;
         p.y += p.speedY;
 
@@ -97,11 +118,13 @@ export default function Particles({
     };
 
     window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("mousemove", handleMouseMove);
     resizeCanvas();
     drawParticles();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
   }, [density, color, opacity]);
