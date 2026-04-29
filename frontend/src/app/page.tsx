@@ -62,20 +62,20 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Scroll Down Indicator - Positioned higher and redesigned */}
-            <div className="flex flex-col items-center gap-3 pt-12">
+            {/* Scroll Down Indicator - Positioned even higher */}
+            <div className="flex flex-col items-center gap-2 pt-6">
               <button
                 onClick={() => {
                   const intro = document.getElementById(content.introduction.section_id);
                   intro?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="group flex flex-col items-center gap-2 text-muted transition hover:text-brand"
+                className="group flex flex-col items-center gap-1.5 text-muted transition hover:text-brand"
               >
-                <div className="relative h-10 w-6 rounded-full border-2 border-current">
-                   <div className="absolute top-2 left-1/2 h-2 w-1 -translate-x-1/2 rounded-full bg-current animate-bounce" />
+                <div className="relative h-9 w-5 rounded-full border-2 border-current">
+                   <div className="absolute top-1.5 left-1/2 h-1.5 w-1 -translate-x-1/2 rounded-full bg-current animate-bounce" />
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Cuộn xuống</span>
-                <ChevronDown className="h-4 w-4 animate-bounce" />
+                <span className="text-[9px] font-bold uppercase tracking-[0.3em]">Cuộn xuống</span>
+                <ChevronDown className="h-3.5 w-3.5 animate-bounce" />
               </button>
             </div>
           </div>
