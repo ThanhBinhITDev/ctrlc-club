@@ -30,9 +30,9 @@ export default function Home() {
 
       <main>
         {/* Hero Section - Balanced & Premium */}
-        <section className="relative flex min-h-[90vh] flex-col items-center justify-center px-6 pt-32 pb-20 overflow-hidden">
+        <section className="relative flex min-h-[85vh] flex-col items-center justify-center px-6 pt-20 pb-16 overflow-hidden">
           <Particles density={45} opacity={0.25} />
-          <div className="relative z-10 mx-auto max-w-6xl text-center space-y-10">
+          <div className="relative z-10 mx-auto max-w-6xl text-center space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-brand border border-brand/20">
               <Sparkles className="h-3.5 w-3.5 fill-brand" />
               {content.brand.tagline}
@@ -46,7 +46,7 @@ export default function Home() {
               {content.hero.description}
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row pt-4">
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row pt-2">
               <Link
                 href={content.hero.primary_cta_url}
                 className="group flex items-center justify-center gap-2 rounded-full bg-brand px-8 py-4 text-base font-bold text-white transition-all hover:scale-105 shadow-lg shadow-brand/20"
@@ -62,20 +62,20 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Scroll Down Indicator - Positioned even higher */}
-            <div className="flex flex-col items-center gap-2 pt-6">
+            {/* Scroll Down Indicator - Positioned tightly to CTAs */}
+            <div className="flex flex-col items-center gap-2 pt-4">
               <button
                 onClick={() => {
                   const intro = document.getElementById(content.introduction.section_id);
                   intro?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="group flex flex-col items-center gap-1.5 text-muted transition hover:text-brand"
+                className="group flex flex-col items-center gap-1 text-muted transition hover:text-brand"
               >
-                <div className="relative h-9 w-5 rounded-full border-2 border-current">
-                   <div className="absolute top-1.5 left-1/2 h-1.5 w-1 -translate-x-1/2 rounded-full bg-current animate-bounce" />
+                <div className="relative h-8 w-4.5 rounded-full border-2 border-current">
+                   <div className="absolute top-1 left-1/2 h-1.5 w-0.5 -translate-x-1/2 rounded-full bg-current animate-bounce" />
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-[0.3em]">Cuộn xuống</span>
-                <ChevronDown className="h-3.5 w-3.5 animate-bounce" />
+                <span className="text-[8px] font-bold uppercase tracking-[0.3em]">Cuộn xuống</span>
+                <ChevronDown className="h-3 w-3 animate-bounce" />
               </button>
             </div>
           </div>
