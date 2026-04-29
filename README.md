@@ -132,6 +132,11 @@ Xem chi tiết tại [dev-guide.md](./docs/dev-guide.md).
       <sub style="font-size: 14px;"><b>Claude</b></sub><br />
       <span style="font-size: 11px; color: #666;">UI & Design</span>
     </td>
+    <td align="center" style="border: none; padding: 20px; width: 20%;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2103/2103611.png" width="80px;" alt="Particles"/><br />
+      <sub style="font-size: 14px;"><b>Particles</b></sub><br />
+      <span style="font-size: 11px; color: #666;">Visual Effects</span>
+    </td>
   </tr>
 </table>
 

@@ -7,7 +7,8 @@
     "Antigravity (AI)",
     "Geminicli (AI)",
     "Codex (AI)",
-    "Claude (AI)"
+    "Claude (AI)",
+    "Particles (AI)"
   ],
   "scripts": {
     "dev": "next dev",

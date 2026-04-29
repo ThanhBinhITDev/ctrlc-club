@@ -8,6 +8,7 @@ import { defaultSiteContent } from "@/data/defaultSiteContent";
 import { siteContentService } from "@/services/api";
 import { SiteContent } from "@/types/siteContent";
 import { ArrowRight, Sparkles, Zap, Check, Command } from "lucide-react";
+import Particles from "@/components/ui/Particles";
 
 export default function Home() {
   const [content, setContent] = useState<SiteContent>(defaultSiteContent);
@@ -29,8 +30,9 @@ export default function Home() {
 
       <main>
         {/* Hero Section - Balanced & Premium */}
-        <section className="relative flex min-h-[90vh] flex-col items-center justify-center px-6 pt-32 pb-20">
-          <div className="mx-auto max-w-6xl text-center space-y-10">
+        <section className="relative flex min-h-[90vh] flex-col items-center justify-center px-6 pt-32 pb-20 overflow-hidden">
+          <Particles density={40} opacity={0.15} />
+          <div className="relative z-10 mx-auto max-w-6xl text-center space-y-10">
             <div className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-brand border border-brand/20">
               <Sparkles className="h-3.5 w-3.5 fill-brand" />
               {content.brand.tagline}
