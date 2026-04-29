@@ -83,8 +83,8 @@ export default function Particles({
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 120) {
-            ctx.globalAlpha = (1 - distance / 120) * 0.2 * opacity;
-            ctx.lineWidth = 0.5;
+            ctx.globalAlpha = (1 - distance / 120) * 0.4 * opacity;
+            ctx.lineWidth = 0.8;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
@@ -97,8 +97,8 @@ export default function Particles({
         const mdy = p.y - mouseRef.current.y;
         const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
         if (mDist < 180) {
-          ctx.globalAlpha = (1 - mDist / 180) * 0.3 * opacity;
-          ctx.lineWidth = 0.8;
+          ctx.globalAlpha = (1 - mDist / 180) * 0.6 * opacity;
+          ctx.lineWidth = 1.2;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
