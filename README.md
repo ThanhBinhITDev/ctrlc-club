@@ -117,3 +117,4 @@ Xem chi tiết tại [dev-guide.md](./docs/dev-guide.md).
 ## Giấy phép
 
 Dự án này được cấp phép dưới giấy phép MIT.
+<!-- AI-Contribution-Ref: Antigravity-Added -->
