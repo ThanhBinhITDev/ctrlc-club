@@ -7,7 +7,7 @@ import Footer from "@/components/layout/Footer";
 import { defaultSiteContent } from "@/data/defaultSiteContent";
 import { siteContentService } from "@/services/api";
 import { SiteContent } from "@/types/siteContent";
-import { ArrowRight, Sparkles, Zap, Check, Command, ChevronDown } from "lucide-react";
+import { ArrowRight, Sparkles, Zap, Check, Command, ChevronDown, Mouse } from "lucide-react";
 import Particles from "@/components/ui/Particles";
 
 export default function Home() {
@@ -61,6 +61,23 @@ export default function Home() {
                 {content.hero.secondary_cta_label}
               </Link>
             </div>
+
+            {/* Scroll Down Indicator - Positioned higher and redesigned */}
+            <div className="flex flex-col items-center gap-3 pt-12">
+              <button
+                onClick={() => {
+                  const intro = document.getElementById(content.introduction.section_id);
+                  intro?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="group flex flex-col items-center gap-2 text-muted transition hover:text-brand"
+              >
+                <div className="relative h-10 w-6 rounded-full border-2 border-current">
+                   <div className="absolute top-2 left-1/2 h-2 w-1 -translate-x-1/2 rounded-full bg-current animate-bounce" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Cuộn xuống</span>
+                <ChevronDown className="h-4 w-4 animate-bounce" />
+              </button>
+            </div>
           </div>
 
           {/* Stats Inline - Clean & Balanced */}
@@ -71,19 +88,6 @@ export default function Home() {
                 <p className="mt-1 text-xs font-bold uppercase tracking-widest text-muted">{stat.label}</p>
               </div>
             ))}
-          </div>
-
-          {/* Scroll Down Indicator */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-20">
-            <button
-              onClick={() => {
-                const intro = document.getElementById(content.introduction.section_id);
-                intro?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-line bg-white/50 text-muted transition hover:bg-white hover:text-brand shadow-lg backdrop-blur-sm"
-            >
-              <ChevronDown className="h-6 w-6" />
-            </button>
           </div>
         </section>
 
